@@ -32,13 +32,14 @@ class _ContentState extends State<Content> {
   void _addItem(DatabaseService db) async {
     var item = await _db.addItem('GraphQL', 'Learn GraphQL ASAP', false);
     print(item.id);
-    print(item.data());
+    print(item.data);
   }
 
   @override
   Widget build(BuildContext context) {
     _db = DatabaseService(uid: _user.uid);
     final items = Provider.of<List<Todo>>(context);
+    print(items.toString());
     if (items == null) {
       return Loading();
     } else {

@@ -69,8 +69,11 @@ class _ItemsState extends State<Items> {
                   ],
                 ),
                 trailing: FlatButton.icon(
-                  onPressed: _db.deleteItem(items[index].itemId),
+                  onPressed: () async {
+                    await _db.deleteItem(items[index].itemId);
+                  },
                   icon: Icon(Icons.delete),
+                  label: Text('del'),
                 ),
               ),
             ),
