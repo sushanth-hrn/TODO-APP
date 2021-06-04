@@ -30,7 +30,7 @@ class DatabaseService {
   }
 
   Stream<List<Todo>> get items {
-    return todo.snapshots().map((snapshot) {
+    return todo.where('id', isEqualTo: uid).snapshots().map((snapshot) {
       print(snapshot.docs.map((doc) => doc.data()));
       return _toCustomTodo(snapshot);
     });
