@@ -11,11 +11,6 @@ class DatabaseService {
 
   List<Todo> _toCustomTodo(QuerySnapshot snap) {
     return snap.docs.map((doc) {
-      print('yooo');
-      // var data = doc.data();
-      // print(doc['title']);
-      print(doc);
-      print(doc.data());
       DateTime createdOn = doc['creation']?.toDate();
       DateTime completedOn = doc['completion']?.toDate();
       return Todo(
@@ -45,7 +40,7 @@ class DatabaseService {
       'description': description,
       'creation': creationTimestamp,
       'completion': completionTimestamp,
-      'completed': completed
+      'completed': completed,
     });
   }
 

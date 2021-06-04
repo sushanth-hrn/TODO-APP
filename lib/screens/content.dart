@@ -57,6 +57,8 @@ class _ContentState extends State<Content> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
+            title: Text('Edit'),
+            insetPadding: EdgeInsets.symmetric(vertical: 65.0),
             content: Padding(
               padding: EdgeInsets.all(8.0),
               child: Form(
