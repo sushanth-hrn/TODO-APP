@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../utils/authentication.dart';
+import '../utils/database.dart';
+import '../models/todo.dart';
+import 'package:provider/provider.dart';
+import './content.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key key, User user})
@@ -21,35 +26,12 @@ class _HomeScreenState extends State<HomeScreen> {
     _user = widget._user;
   }
 
-  void _incrementCounter() {
-    print('clicked');
-    print(_user.uid);
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("TODO"),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You don\'t have anything in the to-do list:',
-            ),
-            Text(
-              'Add your to-do item by clicking on the + icon below',
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Add Item',
-        child: Icon(Icons.add),
-      ),
+    final DatabaseService _db = DatabaseService(uid: _user.uid);
+    return StreamProvider<List<Todo>>.value(
+      value: _db.items,
+      child: Content(user: _user),
     );
   }
 }

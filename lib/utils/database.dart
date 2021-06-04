@@ -11,23 +11,21 @@ class DatabaseService {
 
   List<Todo> _toCustomTodo(QuerySnapshot snap) {
     return snap.docs.map((doc) {
+      DateTime createdOn = doc['creation'].toDate();
+      DateTime completedOn = doc['completion'].toDate();
       return Todo(
           itemId: doc.id,
           title: doc['title'],
           description: doc['description'],
-          creation: doc['creation'],
-          completion: doc['completion'],
+          creation: createdOn,
+          completion: completedOn,
           completed: doc['completed'],
           uid: doc['id']);
     }).toList();
   }
 
   Stream<List<Todo>> get items {
-    return todo
-        .where("id", isEqualTo: uid)
-        .orderBy("creation", descending: true)
-        .snapshots()
-        .map(_toCustomTodo);
+    return todo.where("id", isEqualTo: uid).snapshots().map(_toCustomTodo);
   }
 
   Future addItem(String title, String description, bool completed) async {
@@ -43,13 +41,19 @@ class DatabaseService {
     });
   }
 
-  Future changeItem(String docId,
+  Future updateItem(String docId,
       {String title, String description, bool completed}) async {
     return await todo.doc(docId).update(
         {'title': title, 'description': description, 'completed': completed});
   }
 
-  void deleteItem(String docId) {
+  deleteItem(String docId) {
     todo.doc(docId).delete().then((value) => print("Deleted successfully"));
   }
 }
+
+// todo
+//         .where("id", isEqualTo: uid)
+//         .orderBy("creation", descending: true)
+//         .snapshots()
+//         .map(_toCustomTodo);
