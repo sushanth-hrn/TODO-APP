@@ -125,7 +125,7 @@ class _ItemsState extends State<Items> {
                           _addItem(_db, true, context, data: items[index]);
                         },
                         icon: Icon(Icons.create_rounded),
-                        color: Colors.grey,
+                        color: Colors.green,
                         focusColor: Colors.purple,
                         splashColor: Colors.yellow,
                       ),
