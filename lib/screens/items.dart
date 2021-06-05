@@ -16,6 +16,8 @@ class Items extends StatefulWidget {
   _ItemsState createState() => _ItemsState();
 }
 
+//enum com { Yes, No }
+
 class _ItemsState extends State<Items> {
   User _user;
   DatabaseService _db;
@@ -23,11 +25,13 @@ class _ItemsState extends State<Items> {
 
   String title = '';
   String description = '';
-  bool completed = false;
+  bool completed;
   bool inp1 = false;
   bool inp2 = false;
 
   dynamic res;
+
+  //com completed;
 
   @override
   void initState() {
@@ -101,28 +105,36 @@ class _ItemsState extends State<Items> {
                               SizedBox(
                                 width: 10.0,
                               ),
-                              Text('Yes'),
-                              Radio<bool>(
-                                value: true,
-                                groupValue: completed,
-                                activeColor: Colors.green,
-                                onChanged: (bool val) {
-                                  setState(() {
-                                    completed = true;
-                                  });
-                                },
-                              ),
-                              Text('No'),
-                              Radio<bool>(
-                                value: false,
-                                groupValue: completed,
-                                activeColor: Colors.red,
-                                onChanged: (bool val) {
-                                  setState(() {
-                                    completed = false;
-                                  });
-                                },
-                              ),
+                              Checkbox(
+                                  activeColor: Colors.green,
+                                  value: data.completed,
+                                  onChanged: (bool value) {
+                                    setState(() {
+                                      completed = value;
+                                    });
+                                  }),
+                              // Text('Yes'),
+                              // Radio<com>(
+                              //   value: com.Yes,
+                              //   groupValue: completed,
+                              //   activeColor: Colors.green,
+                              //   onChanged: (com val) {
+                              //     setState(() {
+                              //       completed = com.Yes;
+                              //     });
+                              //   },
+                              // ),
+                              // Text('No'),
+                              // Radio<com>(
+                              //   value: com.No,
+                              //   groupValue: completed,
+                              //   activeColor: Colors.red,
+                              //   onChanged: (com val) {
+                              //     setState(() {
+                              //       completed = com.No;
+                              //     });
+                              //   },
+                              // ),
                             ],
                           )
                         : SizedBox(height: 0.0, width: 0.0)
@@ -209,7 +221,7 @@ class _ItemsState extends State<Items> {
                           await _db.deleteItem(items[index].itemId);
                         },
                         icon: Icon(Icons.delete),
-                        color: Colors.grey,
+                        color: Colors.red,
                         focusColor: Colors.purple,
                         splashColor: Colors.red,
                       ),
