@@ -102,22 +102,22 @@ class _ItemsState extends State<Items> {
                                 width: 10.0,
                               ),
                               Text('Yes'),
-                              Radio(
-                                value: 1,
+                              Radio<bool>(
+                                value: true,
                                 groupValue: completed,
                                 activeColor: Colors.green,
-                                onChanged: (val) {
+                                onChanged: (bool val) {
                                   setState(() {
                                     completed = true;
                                   });
                                 },
                               ),
                               Text('No'),
-                              Radio(
-                                value: 2,
+                              Radio<bool>(
+                                value: false,
                                 groupValue: completed,
                                 activeColor: Colors.red,
-                                onChanged: (val) {
+                                onChanged: (bool val) {
                                   setState(() {
                                     completed = false;
                                   });
@@ -197,7 +197,7 @@ class _ItemsState extends State<Items> {
                           "Created on day : ${items[index].creation.day}/${items[index].creation.month}/${items[index].creation.year}  At : ${items[index].creation.hour}:${items[index].creation.minute}:${items[index].creation.second}"),
                       items[index].completed
                           ? Text(
-                              "Completed On : ${items[index].creation.day}/${items[index].creation.month}/${items[index].creation.year}  At : ${items[index].creation.hour}:${items[index].creation.minute}:${items[index].creation.second}")
+                              "Completed On : ${items[index].completion.day}/${items[index].completion.month}/${items[index].completion.year}  At : ${items[index].completion.hour}:${items[index].completion.minute}:${items[index].completion.second}")
                           : Text("You haven't completed this task yet")
                     ],
                   ),
@@ -236,6 +236,5 @@ class _ItemsState extends State<Items> {
         child: Icon(Icons.add),
       ),
     );
-    ;
   }
 }

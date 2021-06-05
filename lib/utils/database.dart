@@ -46,8 +46,18 @@ class DatabaseService {
 
   Future updateItem(String docId,
       {String title, String description, bool completed}) async {
-    return await todo.doc(docId).update(
-        {'title': title, 'description': description, 'completed': completed});
+    if (completed) {
+      Timestamp completionTimestamp = Timestamp.now();
+      return await todo.doc(docId).update({
+        'title': title,
+        'description': description,
+        'completed': completed,
+        'completion': completionTimestamp
+      });
+    } else {
+      return await todo.doc(docId).update(
+          {'title': title, 'description': description, 'completed': completed});
+    }
   }
 
   deleteItem(String docId) {
