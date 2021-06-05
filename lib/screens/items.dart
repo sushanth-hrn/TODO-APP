@@ -5,6 +5,7 @@ import '../utils/authentication.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../models/todo.dart';
 import './sign_in.dart';
+import '../widgets/form.dart';
 
 class Items extends StatefulWidget {
   const Items({Key key, User user})
@@ -22,15 +23,6 @@ class _ItemsState extends State<Items> {
   User _user;
   DatabaseService _db;
   final Authentication _auth = Authentication();
-
-  String title = '';
-  String description = '';
-  bool completed;
-  bool inp1 = false;
-  bool inp2 = false;
-
-  dynamic res;
-
   //com completed;
 
   @override
@@ -61,108 +53,11 @@ class _ItemsState extends State<Items> {
   void _addItem(DatabaseService db, bool isEdit, BuildContext context,
       {Todo data}) async {
     showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Edit'),
-            insetPadding: EdgeInsets.symmetric(vertical: 65.0),
-            content: Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Form(
-                child: Column(
-                  children: [
-                    TextFormField(
-                      initialValue: isEdit ? data.title : '',
-                      decoration: InputDecoration(
-                        labelText: 'Title',
-                        icon: Icon(Icons.note_add_rounded),
-                      ),
-                      onChanged: (val) {
-                        setState(() {
-                          title = val;
-                          inp1 = true;
-                        });
-                      },
-                    ),
-                    TextFormField(
-                      initialValue: isEdit ? data.description : '',
-                      decoration: InputDecoration(
-                        labelText: 'Desciption',
-                        icon: Icon(Icons.add_comment),
-                      ),
-                      onChanged: (val) {
-                        setState(() {
-                          description = val;
-                          inp2 = true;
-                        });
-                      },
-                    ),
-                    isEdit
-                        ? Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text('Completed ?'),
-                              SizedBox(
-                                width: 10.0,
-                              ),
-                              Checkbox(
-                                  activeColor: Colors.green,
-                                  value: data.completed,
-                                  onChanged: (bool value) {
-                                    setState(() {
-                                      completed = value;
-                                    });
-                                  }),
-                              // Text('Yes'),
-                              // Radio<com>(
-                              //   value: com.Yes,
-                              //   groupValue: completed,
-                              //   activeColor: Colors.green,
-                              //   onChanged: (com val) {
-                              //     setState(() {
-                              //       completed = com.Yes;
-                              //     });
-                              //   },
-                              // ),
-                              // Text('No'),
-                              // Radio<com>(
-                              //   value: com.No,
-                              //   groupValue: completed,
-                              //   activeColor: Colors.red,
-                              //   onChanged: (com val) {
-                              //     setState(() {
-                              //       completed = com.No;
-                              //     });
-                              //   },
-                              // ),
-                            ],
-                          )
-                        : SizedBox(height: 0.0, width: 0.0)
-                  ],
-                ),
-              ),
-            ),
-            actions: [
-              RaisedButton(
-                  child: Text("Submit"),
-                  color: Colors.indigo,
-                  onPressed: () async {
-                    if (isEdit) {
-                      res = await db.updateItem(data.itemId,
-                          title: inp1 ? title : data.title,
-                          description: inp2 ? description : data.description,
-                          completed: completed);
-                      Navigator.pop(context);
-                    } else {
-                      res = await db.addItem(title, description, completed);
-                    }
-                    if (res != null) {
-                      Navigator.pop(context);
-                    }
-                  })
-            ],
-          );
-        });
+      context: context,
+      builder: (BuildContext context) {
+        return Popup(db, isEdit, context, item: data);
+      },
+    );
   }
 
   @override
